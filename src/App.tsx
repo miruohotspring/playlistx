@@ -9,9 +9,14 @@ const tracks: Track[] = [
 ]
 
 const App: React.FC = () => {
+
+  const addTrack = (url: string) => {
+    console.log(url)
+  }
+
   return (
     <Container maxWidth='xl'>
-      <PxUrlField />
+      <PxUrlField onClick={addTrack} />
       <PxTrackList tracks={tracks} />
     </Container>
   )

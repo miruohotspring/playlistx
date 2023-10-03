@@ -1,6 +1,7 @@
 import { Avatar, Chip, IconButton, List, ListItem, ListItemAvatar, ListItemText } from "@mui/material"
 import ImageIcon from '@mui/icons-material/Image'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
+import { Track } from "../interfaces/Track"
 
 const PxTrackList: React.FC<PxTrackListProps> = ({
   tracks = []
