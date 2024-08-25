@@ -27,3 +27,7 @@ dist-ssr
 .next
 next-env.d.ts
 dist
+
+## Panda
+styled-system
+styled-system-studio

@@ -2,7 +2,11 @@
   "compilerOptions": {
     "target": "ES2020",
     "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "module": "ESNext",
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -19,8 +23,44 @@
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
-    "plugins": [{ "name": "next" }]
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "@app/*": [
+        "./src/app/*"
+      ],
+      "@features/*": [
+        "./src/app/_features/*"
+      ],
+      "@components/*": [
+        "./src/app/_components/*"
+      ],
+      "@serverActions/*": [
+        "./src/app/_serverActions/*"
+      ],
+      "@lib/*": [
+        "./src/app/_lib/*"
+      ],
+      "@common/*": [
+        "./src/app/_common/*"
+      ],
+      "@panda/*": [
+        "./styled-system/*"
+      ]
+    }
   },
-  "include": ["./src", "./dist/types/**/*.ts", "./next-env.d.ts"],
-  "exclude": ["./node_modules"]
+  "include": [
+    "./src",
+    "./dist/types/**/*.ts",
+    "./next-env.d.ts"
+  ],
+  "exclude": [
+    "./node_modules"
+  ]
 }

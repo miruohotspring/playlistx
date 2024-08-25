@@ -1,20 +1,21 @@
-import { Providers } from "./Providers";
+import './globals.css';
+import { cookies } from 'next/headers';
+import 'server-only';
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const locale = cookies().get('Next-Locale')?.value ?? 'ja';
   return (
-    <html lang="en">
+    <html lang={locale}>
       <head>
         <meta content="width=device-width, initial-scale=1.0" />
-        <title>PlaylistX</title>
+        <title>Playlistz</title>
       </head>
       <body>
-        <main>
-          <Providers>{children}</Providers>
-        </main>
+        <main>{children}</main>
       </body>
     </html>
   );
