@@ -1,0 +1,38 @@
+name: ci
+
+on: 
+  pull_request:
+    branches:
+      - develop
+  workflow_dispatch:
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22.5.1]
+    premission:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm i
+      - name: Prepare resources
+        run: pnpm prepare
+      - name: Check format
+        run: pnpm biome format .
+      - name: Check lint
+        run: pnpm biome check .
+      - name: Build
+        run: pnpm build
