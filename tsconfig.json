@@ -29,12 +29,6 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@app/*": [
-        "./src/app/*"
-      ],
       "@features/*": [
         "./src/app/_features/*"
       ],
@@ -52,7 +46,10 @@
       ],
       "@panda/*": [
         "./styled-system/*"
-      ]
+      ],
+      "@public/*": [
+        "./public/*"
+      ],
     }
   },
   "include": [

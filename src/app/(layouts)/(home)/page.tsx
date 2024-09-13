@@ -1,3 +1,4 @@
+import { Home } from '@features/Home';
 import type { ReactNode } from 'react';
 
 /**
@@ -6,5 +7,5 @@ import type { ReactNode } from 'react';
  * @returns {ReactNode} features/Home
  */
 export default function HomePage(): ReactNode {
-  return <></>;
+  return <Home />;
 }

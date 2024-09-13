@@ -1,6 +1,7 @@
 import './globals.css';
 import { cookies } from 'next/headers';
 import 'server-only';
+import { ThemeRegistry } from '@features/Theme';
 
 export default function RootLayout({
   children,
@@ -8,6 +9,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const locale = cookies().get('Next-Locale')?.value ?? 'ja';
+
   return (
     <html lang={locale}>
       <head>
@@ -15,7 +17,9 @@ export default function RootLayout({
         <title>Playlistz</title>
       </head>
       <body>
-        <main>{children}</main>
+        <main>
+          <ThemeRegistry>{children}</ThemeRegistry>
+        </main>
       </body>
     </html>
   );
