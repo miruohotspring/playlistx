@@ -18,6 +18,7 @@ import {
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import { Audiotrack } from '@mui/icons-material';
+import { useLanguage, useTranslation } from '@i18n/client';
 
 type Track = {
   index: 1;
@@ -53,6 +54,8 @@ export const Playlist = ({ onPlayPause }: PlaylistProps) => {
   const [isPlaying, setIsPlaying] = useState<string | null>(null);
 
   const theme = useTheme();
+  const { language } = useLanguage();
+  const { t } = useTranslation(language);
 
   const handlePlayPause = (id: string) => {
     if (isPlaying === id) {
@@ -73,9 +76,9 @@ export const Playlist = ({ onPlayPause }: PlaylistProps) => {
           <TableRow>
             <TC> </TC>
             <TC>#</TC>
-            <TC>Title</TC>
-            <TC>Album</TC>
-            <TC>Duration</TC>
+            <TC>{t('title')}</TC>
+            <TC>{t('album')}</TC>
+            <TC>{t('duration')}</TC>
           </TableRow>
         </TableHead>
         <TableBody>

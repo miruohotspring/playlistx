@@ -44,8 +44,8 @@
       "@common/*": [
         "./src/app/_common/*"
       ],
-      "@panda/*": [
-        "./styled-system/*"
+      "@i18n/*": [
+        "./src/app/i18n/*"
       ],
       "@public/*": [
         "./public/*"
