@@ -1,4 +1,7 @@
 {
+  "home": "Home",
+  "settings": "Settings",
+  "playlists": "Playlists",
   "title": "Title",
   "album": "Album",
   "duration": "Duration"

@@ -1,4 +1,7 @@
 {
+  "home": "ホーム",
+  "settings": "設定",
+  "playlists": "プレイリスト",
   "title": "タイトル",
   "album": "アルバム",
   "duration": "時間"

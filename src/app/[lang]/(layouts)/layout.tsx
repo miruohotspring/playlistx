@@ -1,5 +1,7 @@
 import 'server-only';
 
+import { HeaderLayout } from '@features/HeaderLayout';
+
 export default async function Layout({
   children,
 }: Readonly<{
@@ -7,7 +9,7 @@ export default async function Layout({
 }>) {
   return (
     <>
-      <div>{children}</div>
+      <HeaderLayout>{children}</HeaderLayout>
     </>
   );
 }
