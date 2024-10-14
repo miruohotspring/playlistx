@@ -1,6 +1,7 @@
 'use client';
 
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
+import { SessionProvider } from 'next-auth/react';
 import type { ReactNode } from 'react';
 
 const theme = createTheme({
@@ -19,8 +20,10 @@ type ThemeRegistryProps = {
 export const ThemeRegistry = ({ children }: ThemeRegistryProps) => {
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline />
-      {children}
+      <SessionProvider>
+        <CssBaseline />
+        {children}
+      </SessionProvider>
     </ThemeProvider>
   );
 };

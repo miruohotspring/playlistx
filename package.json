@@ -19,6 +19,7 @@
     "i18next-resources-to-backend": "^1.2.1",
     "negotiator": "^0.6.3",
     "next": "15.0.0-rc.0",
+    "next-auth": "^4.24.5",
     "next-i18next": "^15.3.1",
     "pino": "^9.3.2",
     "react": "19.0.0-rc-09111202-20241011",

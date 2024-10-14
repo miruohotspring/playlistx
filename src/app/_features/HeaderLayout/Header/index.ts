@@ -1,3 +1,3 @@
-import Header from './presentational';
+import Header from './container';
 
 export { Header };

@@ -1,7 +1,22 @@
-import { AppBar, IconButton, Toolbar } from '@mui/material';
+import {
+  AppBar,
+  Box,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Toolbar,
+} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import { Search } from '@mui/icons-material';
+import type { KeyboardEventHandler } from 'react';
 
-const Header = ({ handleSidebarOpen }: { handleSidebarOpen: () => void }) => {
+const Header = ({
+  handleSidebarOpen,
+  onKeyDown,
+}: {
+  handleSidebarOpen: () => void;
+  onKeyDown?: KeyboardEventHandler<HTMLInputElement>;
+}) => {
   return (
     <AppBar
       position="fixed"
@@ -18,6 +33,32 @@ const Header = ({ handleSidebarOpen }: { handleSidebarOpen: () => void }) => {
         >
           <MenuIcon />
         </IconButton>
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          width="100%"
+        >
+          <TextField
+            fullWidth
+            id="search"
+            size="small"
+            slotProps={{
+              input: {
+                sx: {
+                  borderRadius: '24px',
+                },
+                onKeyDown: onKeyDown,
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Search />
+                  </InputAdornment>
+                ),
+              },
+            }}
+            sx={{ maxWidth: '480px' }}
+          />
+        </Box>
       </Toolbar>
     </AppBar>
   );
