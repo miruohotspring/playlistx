@@ -81,7 +81,7 @@ const ListGroup = ({
                 />
                 {open ? item.open ? <ExpandLess /> : <ExpandMore /> : <></>}
               </ListItemButton>
-              <Collapse in={item.open} timeout="auto" unmountOnExit>
+              <Collapse in={item.open} timeout="auto">
                 <List disablePadding>
                   <ListGroup items={item.items} open={open} />
                 </List>
