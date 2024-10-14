@@ -21,12 +21,12 @@ export const ScProvider = ({ children }: { children: ReactNode }) => {
   const [cid, setCid] = useState<string | undefined>(undefined);
 
   useEffect(() => {
-    async () => {
+    (async () => {
       if (cid === undefined) {
         const cid = await scGetClientId();
         setCid(cid);
       }
-    };
+    })();
   });
 
   return (
