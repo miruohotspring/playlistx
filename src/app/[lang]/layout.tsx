@@ -1,8 +1,7 @@
 import 'server-only';
 
 import { dir } from 'i18next';
-import { ThemeRegistry } from '@features/Theme';
-import { LanguageProvider } from '@i18n/client';
+import { Providers } from '@features/Providers';
 
 export default function RootLayout({
   children,
@@ -20,11 +19,7 @@ export default function RootLayout({
       </head>
       <body>
         <main>
-          <ThemeRegistry>
-            <LanguageProvider initialLanguage={lang}>
-              {children}
-            </LanguageProvider>
-          </ThemeRegistry>
+          <Providers lang={lang}>{children}</Providers>
         </main>
       </body>
     </html>

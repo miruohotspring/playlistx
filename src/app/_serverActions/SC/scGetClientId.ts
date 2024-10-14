@@ -2,7 +2,7 @@
 
 export default async function scGetClientId() {
   const url = process.env.SC_BASE_URL;
-  if (!url) throw new Error();
+  if (!url) return undefined;
 
   const res = await fetch(url);
   if (res.ok) {
@@ -13,6 +13,5 @@ export default async function scGetClientId() {
       return 'this-is-client-id';
     }
   }
-
-  throw new Error();
+  return undefined;
 }
