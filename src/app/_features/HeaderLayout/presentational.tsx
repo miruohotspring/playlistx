@@ -43,7 +43,7 @@ const HeaderLayoutUI = ({
           marginLeft: show
             ? !isSmallScreen
               ? `${drawerWidth}px`
-              : theme.spacing(7)
+              : theme.spacing(8)
             : 0,
         }}
       >
