@@ -10,13 +10,13 @@ import type { SidebarItem } from './Sidebar';
 import HeaderLayoutUI from './presentational';
 
 const HeaderLayout = ({ children }: { children: React.ReactNode }) => {
-  const [show, setShow] = useState(true);
-  const [open, setOpen] = useState(false);
-  const [playlistOpen, setPlaylistOpen] = useState(false);
-
   const router = useRouter();
   const { language } = useLanguage();
   const { t } = useTranslation(language);
+
+  const [show, setShow] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [playlistOpen, setPlaylistOpen] = useState(false);
 
   const handleClick = () => {
     setShow(!show);
