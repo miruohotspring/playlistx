@@ -163,6 +163,7 @@ export const DynamoDBAdapter = {
     );
     if (!result.Item) return null;
     const item = result.Item;
+    logger.debug(item);
     return {
       sessionToken: item.sessionToken,
       userId: item.userId,
@@ -178,6 +179,8 @@ export const DynamoDBAdapter = {
     if (!session) return null;
     const user = await DynamoDBAdapter.getUser(session.userId);
     if (!user) return null;
+    logger.debug(session);
+    logger.debug(user);
     return { session, user };
   },
 

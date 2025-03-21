@@ -4,10 +4,14 @@ import { useLanguage, useTranslation } from '@i18n/client';
 import { Settings } from '@mui/icons-material';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import HomeIcon from '@mui/icons-material/Home';
+import AddIcon from '@mui/icons-material/Add';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { SidebarItem } from './Sidebar';
 import HeaderLayoutUI from './presentational';
+import { type Playlist, fetchUserPlaylists } from '@features/Playlists';
+import logger from '@common/logger';
+import AddPlaylistDialog from '@features/Playlists/containers/AddPlaylistDialog';
 
 const HeaderLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
@@ -17,6 +21,8 @@ const HeaderLayout = ({ children }: { children: React.ReactNode }) => {
   const [show, setShow] = useState(true);
   const [open, setOpen] = useState(false);
   const [playlistOpen, setPlaylistOpen] = useState(true);
+  const [playlists, setPlaylists] = useState<Playlist[]>([]);
+  const [addPlaylistDialogOpen, setAddPlaylistDialogOpen] = useState(false);
 
   const handleClick = () => {
     setShow(!show);
@@ -29,6 +35,23 @@ const HeaderLayout = ({ children }: { children: React.ReactNode }) => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    const fetchPlaylists = async () => {
+      try {
+        setPlaylists(await fetchUserPlaylists());
+      } catch (error) {
+        logger.error('Error fething playlists', error);
+      }
+    };
+    fetchPlaylists();
+  }, []);
+
+  const playlistItems: SidebarItem[] = playlists.map((playlist) => ({
+    label: playlist.name,
+    onClick: () => router.push(`/playlists/${playlist.id}`),
+    icon: <FormatListBulletedIcon />,
+  }));
 
   const items: SidebarItem[][] = [
     [
@@ -49,7 +72,14 @@ const HeaderLayout = ({ children }: { children: React.ReactNode }) => {
         icon: <FormatListBulletedIcon />,
         onClick: () => setPlaylistOpen(!playlistOpen),
         open: playlistOpen,
-        items: [], // ここにplaylistsを入れたいが、このコードはclientなんですよね
+        items: [
+          {
+            label: t('common:new'),
+            onClick: () => setAddPlaylistDialogOpen(true),
+            icon: <AddIcon />,
+          },
+          ...playlistItems,
+        ],
       },
     ],
   ];
@@ -63,6 +93,10 @@ const HeaderLayout = ({ children }: { children: React.ReactNode }) => {
       handleOpen={handleOpen}
       handleClose={handleClose}
     >
+      <AddPlaylistDialog
+        open={addPlaylistDialogOpen}
+        onClose={() => setAddPlaylistDialogOpen(false)}
+      />
       {children}
     </HeaderLayoutUI>
   );

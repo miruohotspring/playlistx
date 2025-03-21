@@ -15,13 +15,19 @@ export const options = {
     strategy: 'database' as const,
   },
   callbacks: {
-    async session({ session }: { session: Session }): Promise<Session> {
+    async session({
+      session,
+      user,
+    }: { session: Session; user: User }): Promise<Session> {
+      session.user = user;
+      session.userId = user.id;
       if (session.sessionToken) {
         const dbSession = await DynamoDBAdapter.getSession(
           session.sessionToken,
         );
         if (dbSession) {
           session.expires = dbSession.expires;
+          session.userId = dbSession.userId;
         }
       }
       return session;
