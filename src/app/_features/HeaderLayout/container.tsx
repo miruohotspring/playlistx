@@ -16,7 +16,7 @@ const HeaderLayout = ({ children }: { children: React.ReactNode }) => {
 
   const [show, setShow] = useState(true);
   const [open, setOpen] = useState(false);
-  const [playlistOpen, setPlaylistOpen] = useState(false);
+  const [playlistOpen, setPlaylistOpen] = useState(true);
 
   const handleClick = () => {
     setShow(!show);
