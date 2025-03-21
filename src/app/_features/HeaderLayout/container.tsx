@@ -49,7 +49,7 @@ const HeaderLayout = ({ children }: { children: React.ReactNode }) => {
 
   const playlistItems: SidebarItem[] = playlists.map((playlist) => ({
     label: playlist.name,
-    onClick: () => router.push(`/playlists/${playlist.id}`),
+    onClick: () => router.push(`/playlist/${playlist.id}`),
     icon: <FormatListBulletedIcon />,
   }));
 
@@ -95,7 +95,10 @@ const HeaderLayout = ({ children }: { children: React.ReactNode }) => {
     >
       <AddPlaylistDialog
         open={addPlaylistDialogOpen}
-        onClose={() => setAddPlaylistDialogOpen(false)}
+        onClose={async () => {
+          setAddPlaylistDialogOpen(false);
+          setPlaylists(await fetchUserPlaylists());
+        }}
       />
       {children}
     </HeaderLayoutUI>
