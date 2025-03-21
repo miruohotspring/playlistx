@@ -1,3 +1,5 @@
+import { DynamoDBAdapter } from '@lib/dynamodbAdapter';
+import type { Session, User } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 
 export const options = {
@@ -8,4 +10,43 @@ export const options = {
       clientSecret: process.env.GOOGLE_SECRET as string,
     }),
   ],
+  adapter: DynamoDBAdapter,
+  session: {
+    strategy: 'database',
+  },
+  callbacks: {
+    async session({ session }: { session: Session }): Promise<Session> {
+      if (session.sessionToken) {
+        const dbSession = await DynamoDBAdapter.getSession(
+          session.sessionToken,
+        );
+        if (dbSession) {
+          session.expires = dbSession.expires;
+        }
+      }
+      return session;
+    },
+  },
+  events: {
+    async signIn({ user }: { user: User }): Promise<void> {
+      const newUser: User = {
+        id: user.id,
+        name: user.name ?? undefined,
+        email: user.email ?? undefined,
+        emailVerified: user.emailVerified ? new Date(user.emailVerified) : null,
+        image: user.image ?? undefined,
+      };
+      await DynamoDBAdapter.createUser(newUser);
+    },
+    async session({ session }: { session: Session }): Promise<void> {
+      if (session.sessionToken && session.user) {
+        const newSession: Session = {
+          sessionToken: session.sessionToken,
+          userId: session.user.id,
+          expires: session.expires,
+        };
+        await DynamoDBAdapter.createSession(newSession);
+      }
+    },
+  },
 };
