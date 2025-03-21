@@ -41,6 +41,9 @@
       "@lib/*": [
         "./src/app/_lib/*"
       ],
+      "@api/*": [
+        "./src/app/api/*"
+      ],
       "@common/*": [
         "./src/app/_common/*"
       ],

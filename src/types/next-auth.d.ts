@@ -9,8 +9,8 @@ declare module 'next-auth' {
   interface User extends NextAuthUser {
     id: string;
     name?: string;
-    email?: string;
-    emailVerified?: Date | null;
+    email: string;
+    emailVerified: Date | null;
     image?: string;
   }
 
@@ -21,7 +21,7 @@ declare module 'next-auth' {
   interface Session extends NextAuthSession {
     sessionToken: string;
     userId: string;
-    expires: string | Date;
+    expires: Date;
     user?: User;
   }
 }

@@ -55,9 +55,9 @@ export const DynamoDBAdapter = {
     if (!result.Item) return null;
     const item = result.Item as {
       id: string;
-      name?: string;
-      email?: string;
-      emailVerified?: string | null;
+      name: string;
+      email: string;
+      emailVerified: string | null;
       image?: string;
     };
     return {
@@ -125,9 +125,9 @@ export const DynamoDBAdapter = {
     if (!result.Items || result.Items.length === 0) return null;
     const item = result.Items[0] as {
       id: string;
-      name?: string;
-      email?: string;
-      emailVerified?: string | null;
+      name: string;
+      email: string;
+      emailVerified: string | null;
       image?: string;
     };
     return {
@@ -181,19 +181,31 @@ export const DynamoDBAdapter = {
     return { session, user };
   },
 
-  async updateSession(session: Session): Promise<Session> {
+  async updateSession(
+    session: Partial<Session> & Pick<Session, 'sessionToken'>,
+  ): Promise<Session> {
     logger.debug('update session');
+    const expires = session.expires?.toISOString();
+    if (!session.userId || !expires) {
+      throw new Error('updateSession: invalid session');
+    }
+
     await ddbDocClient.send(
       new UpdateCommand({
         TableName: SESSIONS_TABLE,
         Key: { sessionToken: session.sessionToken },
-        UpdateExpression: 'set expires = :expires',
+        UpdateExpression: 'set expires = :expires, userId = :userId',
         ExpressionAttributeValues: {
-          ':expires': session.expires,
+          ':expires': expires,
+          ':userId': session.userId,
         },
       }),
     );
-    return session;
+    return {
+      sessionToken: session.sessionToken,
+      userId: session.userId,
+      expires: new Date(expires as string),
+    } as Session;
   },
 
   async deleteSession(sessionToken: string): Promise<void> {

@@ -12,7 +12,7 @@ export const options = {
   ],
   adapter: DynamoDBAdapter,
   session: {
-    strategy: 'database',
+    strategy: 'database' as const,
   },
   callbacks: {
     async session({ session }: { session: Session }): Promise<Session> {
@@ -31,8 +31,8 @@ export const options = {
     async signIn({ user }: { user: User }): Promise<void> {
       const newUser: User = {
         id: user.id,
-        name: user.name ?? undefined,
-        email: user.email ?? undefined,
+        name: user.name ?? '',
+        email: user.email ?? '',
         emailVerified: user.emailVerified ? new Date(user.emailVerified) : null,
         image: user.image ?? undefined,
       };

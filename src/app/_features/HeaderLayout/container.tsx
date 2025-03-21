@@ -49,7 +49,7 @@ const HeaderLayout = ({ children }: { children: React.ReactNode }) => {
         icon: <FormatListBulletedIcon />,
         onClick: () => setPlaylistOpen(!playlistOpen),
         open: playlistOpen,
-        items: [],
+        items: [], // ここにplaylistsを入れたいが、このコードはclientなんですよね
       },
     ],
   ];
