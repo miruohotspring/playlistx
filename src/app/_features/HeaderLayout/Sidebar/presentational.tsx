@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { Box, Collapse, Drawer } from '@mui/material';
 import {
   type CSSObject,
@@ -11,7 +11,7 @@ import {
   type Theme,
   Toolbar,
 } from '@mui/material';
-import { ExpandLess, ExpandMore } from '@mui/icons-material';
+import type { ReactNode } from 'react';
 
 export interface SidebarItem {
   label: string;

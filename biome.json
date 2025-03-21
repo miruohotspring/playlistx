@@ -26,13 +26,8 @@
   },
   "formatter": {
     "enabled": true,
-    "include": [
-      "src/**/*",
-      ".storybook/**/*"
-    ],
-    "ignore": [
-      "dist/**/*"
-    ],
+    "include": ["src/**/*", ".storybook/**/*"],
+    "ignore": ["dist/**/*"],
     "indentStyle": "space",
     "indentWidth": 2
   },

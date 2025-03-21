@@ -1,8 +1,8 @@
 // next-auth.d.ts
 import type {
-  User as NextAuthUser,
-  Session as NextAuthSession,
   Account as NextAuthAccount,
+  Session as NextAuthSession,
+  User as NextAuthUser,
 } from 'next-auth';
 
 declare module 'next-auth' {

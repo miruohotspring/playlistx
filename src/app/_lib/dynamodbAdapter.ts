@@ -1,15 +1,15 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { v4 as uuidv4 } from 'uuid';
-import type { User, Session, Account } from 'next-auth';
 import {
-  DynamoDBDocumentClient,
-  PutCommand,
-  GetCommand,
   DeleteCommand,
-  UpdateCommand,
+  DynamoDBDocumentClient,
+  GetCommand,
+  PutCommand,
   QueryCommand,
+  UpdateCommand,
 } from '@aws-sdk/lib-dynamodb';
 import logger from '@common/logger';
+import type { Account, Session, User } from 'next-auth';
+import { v4 as uuidv4 } from 'uuid';
 
 const ddbClient = new DynamoDBClient({ region: process.env.AWS_REGION });
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);

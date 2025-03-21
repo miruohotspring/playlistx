@@ -1,3 +1,5 @@
+import { Search } from '@mui/icons-material';
+import MenuIcon from '@mui/icons-material/Menu';
 import {
   AppBar,
   Box,
@@ -6,8 +8,6 @@ import {
   TextField,
   Toolbar,
 } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import { Search } from '@mui/icons-material';
 import type { KeyboardEventHandler } from 'react';
 
 const Header = ({

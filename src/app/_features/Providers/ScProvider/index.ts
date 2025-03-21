@@ -1,3 +1,3 @@
-import { useSc, ScProvider } from './ScProvider';
+import { ScProvider, useSc } from './ScProvider';
 
 export { useSc, ScProvider };

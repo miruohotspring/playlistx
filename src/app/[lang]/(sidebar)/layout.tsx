@@ -1,7 +1,7 @@
 import 'server-only';
 
-import { HeaderLayout } from '@features/HeaderLayout';
 import { Auth } from '@features/Auth';
+import { HeaderLayout } from '@features/HeaderLayout';
 
 export default async function Layout({
   children,

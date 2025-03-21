@@ -1,6 +1,6 @@
+import { useSc } from '@features/Providers/ScProvider';
 import type { KeyboardEventHandler } from 'react';
 import HeaderUI from './presentational';
-import { useSc } from '@features/Providers/ScProvider';
 
 const Header = ({
   handleSidebarOpen,

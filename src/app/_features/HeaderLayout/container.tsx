@@ -1,17 +1,17 @@
 'use client';
 
+import logger from '@common/logger';
+import { type Playlist, fetchUserPlaylists } from '@features/Playlists';
+import AddPlaylistDialog from '@features/Playlists/containers/AddPlaylistDialog';
 import { useLanguage, useTranslation } from '@i18n/client';
 import { Settings } from '@mui/icons-material';
+import AddIcon from '@mui/icons-material/Add';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import HomeIcon from '@mui/icons-material/Home';
-import AddIcon from '@mui/icons-material/Add';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import type { SidebarItem } from './Sidebar';
 import HeaderLayoutUI from './presentational';
-import { type Playlist, fetchUserPlaylists } from '@features/Playlists';
-import logger from '@common/logger';
-import AddPlaylistDialog from '@features/Playlists/containers/AddPlaylistDialog';
 
 const HeaderLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
