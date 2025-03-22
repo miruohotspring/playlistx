@@ -40,7 +40,6 @@ export const DynamoDBAdapter = {
         Item: item,
       }),
     );
-    logger.debug(user);
     return user;
   },
 
@@ -163,7 +162,6 @@ export const DynamoDBAdapter = {
     );
     if (!result.Item) return null;
     const item = result.Item;
-    logger.debug(item);
     return {
       sessionToken: item.sessionToken,
       userId: item.userId,
@@ -179,8 +177,6 @@ export const DynamoDBAdapter = {
     if (!session) return null;
     const user = await DynamoDBAdapter.getUser(session.userId);
     if (!user) return null;
-    logger.debug(session);
-    logger.debug(user);
     return { session, user };
   },
 
@@ -189,7 +185,7 @@ export const DynamoDBAdapter = {
   ): Promise<Session> {
     logger.debug('update session');
     const expires = session.expires?.toISOString();
-    if (!session.userId || !expires) {
+    if (!session.sessionToken || !expires) {
       throw new Error('updateSession: invalid session');
     }
 
@@ -197,17 +193,16 @@ export const DynamoDBAdapter = {
       new UpdateCommand({
         TableName: SESSIONS_TABLE,
         Key: { sessionToken: session.sessionToken },
-        UpdateExpression: 'set expires = :expires, userId = :userId',
+        UpdateExpression: 'set expires = :expires',
         ExpressionAttributeValues: {
           ':expires': expires,
-          ':userId': session.userId,
         },
       }),
     );
     return {
       sessionToken: session.sessionToken,
       userId: session.userId,
-      expires: new Date(expires as string),
+      expires: session.expires,
     } as Session;
   },
 
