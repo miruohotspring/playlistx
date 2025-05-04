@@ -1,12 +1,7 @@
 'use server';
 
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import {
-  DynamoDBDocumentClient,
-  GetCommand,
-  PutCommand,
-  QueryCommand,
-} from '@aws-sdk/lib-dynamodb';
+import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
 import { v4 as uuidv4 } from 'uuid';
 import type { Playlist } from '.';
 import getSession from '@lib/auth';
@@ -17,47 +12,60 @@ const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
 const PLAYLISTS_TABLE = process.env.PLAYLISTS_TABLE as string;
 
 /**
- * Fetch User Playlists
- * @param user ID
- * @returns Array of User's playlists
+ * Fetch Session User Playlists
+ * @param
+ * @returns Array of session user's playlists
  */
-export const fetchUserPlaylists = async (): Promise<Playlist[]> => {
+export const fetchSessionUserPlaylists = async (): Promise<Playlist[]> => {
   const session = await getSession();
-  const userId = session?.userId;
-
-  const command = new QueryCommand({
-    TableName: PLAYLISTS_TABLE as string,
-    IndexName: 'created_by_created_at_index',
-    KeyConditionExpression: 'created_by = :uid',
-    ExpressionAttributeValues: {
-      ':uid': userId,
-    },
-    ScanIndexForward: false,
-  });
-
-  const result = await ddbDocClient.send(command);
-  const items = result.Items as Playlist[] | undefined;
-  return items ?? [];
+  console.log(session);
+  return [];
+  // const session = await getSession();
+  // const user = session?.user;
+  // if (!user || !user.email) {
+  //   logger.error('User not authenticated');
+  //   redirect('/api/auth/signIn');
+  // }
+  //
+  // const command = new QueryCommand({
+  //   TableName: PLAYLISTS_TABLE as string,
+  //   IndexName: 'created_by_created_at_index',
+  //   KeyConditionExpression: 'created_by = :uid',
+  //   ExpressionAttributeValues: {
+  //     ':uid': user,
+  //   },
+  //   ScanIndexForward: false,
+  // });
+  //
+  // const result = await ddbDocClient.send(command);
+  // const items = result.Items as Playlist[] | undefined;
+  // return items ?? [];
 };
 
 /**
  * Fetch Playlist
- * @param playlist ID
+ * @param id - playlist ID
  * @returns Playlist Detail
  */
-// export const fetchPlaylist = async (): Promise<Playlist | null> => {
-//   const session = await getSession();
-//   const userId = session.userId;
-//
-//   const command = new GetCommand({
-//     TableName: PLAYLISTS_TABLE as string,
-//     Key: { user },
-//   });
-//
-//   const result = await ddbDocClient.send(command);
-//   const items = result.Items as Playlist[] | undefined;
-//   return items ?? [];
-// };
+export const fetchPlaylist = async (id: string): Promise<Playlist | null> => {
+  console.log(id);
+  return null;
+  // const session = await getSession();
+  // const userId = session?.userId;
+  //
+  // const result = await ddbDocClient.send(
+  //   new GetCommand({
+  //     TableName: PLAYLISTS_TABLE as string,
+  //     Key: { id },
+  //   }),
+  // );
+  //
+  // const playlist = result.Item;
+  // if (!playlist) return null;
+  //
+  // const items = result.Items as Playlist[] | undefined;
+  // return items ?? [];
+};
 
 /**
  * Create Playlist
@@ -68,8 +76,8 @@ export async function createPlaylist(data: {
   name: string;
   description: string;
 }): Promise<Playlist> {
-  const session = await getSession();
-  const userId = session.userId;
+  // const session = await getSession();
+  // const userId = session.userId;
 
   const now = new Date().toISOString();
 
@@ -82,8 +90,8 @@ export async function createPlaylist(data: {
     is_public: false,
     created_at: now,
     updated_at: now,
-    created_by: userId,
-    updated_by: userId,
+    created_by: '',
+    updated_by: '',
   };
 
   await ddbDocClient.send(

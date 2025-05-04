@@ -11,6 +11,7 @@
     "format": "biome format --write . && biome check --write . "
   },
   "dependencies": {
+    "@auth/dynamodb-adapter": "^2.8.0",
     "@aws-sdk/client-dynamodb": "^3.772.0",
     "@aws-sdk/lib-dynamodb": "^3.772.0",
     "@emotion/react": "^11.11.1",
@@ -29,7 +30,8 @@
     "react-dom": "19.0.0-rc-09111202-20241011",
     "react-hook-form": "^7.54.2",
     "react-i18next": "^15.0.3",
-    "uuid": "^11.1.0"
+    "uuid": "^11.1.0",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@biomejs/biome": "1.8.3",
