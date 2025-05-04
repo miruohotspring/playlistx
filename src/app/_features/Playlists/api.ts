@@ -4,7 +4,6 @@ import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
 import { v4 as uuidv4 } from 'uuid';
 import type { Playlist } from '.';
-import getSession from '@lib/auth';
 
 const ddbClient = new DynamoDBClient({ region: process.env.AWS_REGION });
 const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
@@ -17,8 +16,6 @@ const PLAYLISTS_TABLE = process.env.PLAYLISTS_TABLE as string;
  * @returns Array of session user's playlists
  */
 export const fetchSessionUserPlaylists = async (): Promise<Playlist[]> => {
-  const session = await getSession();
-  console.log(session);
   return [];
   // const session = await getSession();
   // const user = session?.user;
