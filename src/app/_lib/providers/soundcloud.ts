@@ -4,11 +4,12 @@ import type {
   TokenEndpointHandler,
 } from 'next-auth/providers/oauth';
 
-interface SoundCloudProfile {
+export interface SoundCloudProfile {
   id: number;
   username: string;
   avatar_url: string;
   email?: string;
+  permalink_url: string;
 }
 
 export default function SoundCloudProvider(
@@ -90,6 +91,7 @@ export default function SoundCloudProvider(
         name: profile.username,
         email: `soundcloud_${profile.id}@users.soundcloud.local`,
         image: profile.avatar_url,
+        permalink_url: profile.permalink_url,
       };
     },
 

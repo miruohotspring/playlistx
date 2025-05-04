@@ -1,12 +1,9 @@
 'use server';
 
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
+import { PutCommand } from '@aws-sdk/lib-dynamodb';
 import { v4 as uuidv4 } from 'uuid';
 import type { Playlist } from '.';
-
-const ddbClient = new DynamoDBClient({ region: process.env.AWS_REGION });
-const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
+import { docClient } from '@lib/dynamo';
 
 const PLAYLISTS_TABLE = process.env.PLAYLISTS_TABLE as string;
 
@@ -91,7 +88,7 @@ export async function createPlaylist(data: {
     updated_by: '',
   };
 
-  await ddbDocClient.send(
+  await docClient.send(
     new PutCommand({
       TableName: PLAYLISTS_TABLE,
       Item: newPlaylist,
