@@ -3,7 +3,7 @@
 import React from 'react';
 
 import { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import {
   Typography,
   Paper,
@@ -26,7 +26,7 @@ import Image from 'next/image';
 import { getLinkedProviders } from '@serverActions/getLinkedProviders';
 import type { LinkedProviderMeta } from '@serverActions/getLinkedProviders';
 import { ProviderType } from '@common/constants';
-import { OpenInNew } from '@mui/icons-material';
+import { Logout, OpenInNew } from '@mui/icons-material';
 
 interface ProviderInfo {
   name: string;
@@ -54,30 +54,30 @@ export const Settings = () => {
       name: 'YouTube',
       description: 'YouTubeアカウントとの連携',
       icon: (
-        <Image width="34" height="24" src="/icons/youtube.png" alt="YouTube" />
+        <Image width="32" height="24" src="/icons/youtube.png" alt="YouTube" />
       ),
-      color: '#FF0000',
+      color: 'inherit',
     },
     spotify: {
       name: 'Spotify',
       description: 'Spotifyアカウントとの連携',
       icon: (
-        <Image width="24" height="24" src="/icons/spotify.png" alt="Spotify" />
+        <Image width="32" height="32" src="/icons/spotify.png" alt="Spotify" />
       ),
-      color: '#1DB954',
+      color: 'inherit',
     },
     soundcloud: {
       name: 'SoundCloud',
       description: 'SoundCloudアカウントとの連携',
       icon: (
         <Image
-          width="34"
-          height="24"
-          src="/icons/soundcloud-dark.png"
-          alt="Spotify"
+          width="32"
+          height="32"
+          src="/icons/soundcloud.png"
+          alt="SoundCloud"
         />
       ),
-      color: '#FF5500',
+      color: 'inherit',
     },
   };
 
@@ -148,6 +148,10 @@ export const Settings = () => {
     }
   };
 
+  const handleLogout = async () => {
+    await signOut({ callbackUrl: "/" })
+  }
+
   if (loading) {
     return (
       <Container
@@ -186,6 +190,9 @@ export const Settings = () => {
         <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
           音楽サービスとの連携を管理します。連携することで、各サービスのプレイリストを統合して利用できます。
         </Typography>
+        <Alert variant="outlined" severity="warning">
+          すべてのサービスとの連携を解除すると、再度ログインすることが出来なくなります。
+        </Alert>
 
         <List>
           {Object.entries(providerInfo).map(([provider, info]) => (
@@ -233,13 +240,12 @@ export const Settings = () => {
                     </>
                   ) : (
                     <Button
-                      variant="contained"
+                      variant="outlined"
                       size="small"
                       onClick={() => handleConnect(provider)}
                       sx={{
-                        bgcolor: info.color,
-                        '&:hover': { bgcolor: info.color, opacity: 0.9 },
-                        color: 'white',
+                        outlineColor: info.color,
+                        color: 'inherit',
                       }}
                     >
                       連携する
@@ -253,6 +259,9 @@ export const Settings = () => {
             </React.Fragment>
           ))}
         </List>
+        <Button variant="outlined" color="error" startIcon={<Logout />} onClick={handleLogout}>
+          ログアウト
+        </Button>
       </Paper>
 
       <Snackbar
