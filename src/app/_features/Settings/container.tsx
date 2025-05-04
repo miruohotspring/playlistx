@@ -19,13 +19,14 @@ import {
   Divider,
   Snackbar,
   Alert,
+  Link,
 } from '@mui/material';
 import { signIn } from 'next-auth/react';
-import {
-  type LinkedProviders,
-  getLinkedProviders,
-} from '@lib/getLinkedProviders';
 import Image from 'next/image';
+import { getLinkedProviders } from '@serverActions/getLinkedProviders';
+import type { LinkedProviderMeta } from '@serverActions/getLinkedProviders';
+import { ProviderType } from '@common/constants';
+import { OpenInNew } from '@mui/icons-material';
 
 interface ProviderInfo {
   name: string;
@@ -36,7 +37,7 @@ interface ProviderInfo {
 
 export const Settings = () => {
   const { data: session, status } = useSession();
-  const [providers, setProviders] = useState<LinkedProviders | null>(null);
+  const [providers, setProviders] = useState<Record<string, LinkedProviderMeta> | null>(null);
   const [loading, setLoading] = useState(true);
   const [notification, setNotification] = useState<{
     open: boolean;
@@ -48,7 +49,7 @@ export const Settings = () => {
     severity: 'success',
   });
 
-  const providerInfo: Record<string, ProviderInfo> = {
+  const providerInfo: Record<ProviderType, ProviderInfo> = {
     google: {
       name: 'YouTube',
       description: 'YouTubeアカウントとの連携',
@@ -82,16 +83,14 @@ export const Settings = () => {
 
   useEffect(() => {
     async function fetchProviders() {
-      if (session?.user?.id) {
-        try {
-          const linkedProviders = await getLinkedProviders(session.user.id);
-          setProviders(linkedProviders);
-        } catch (error) {
-          console.error('Failed to fetch linked providers:', error);
-          showNotification('プロバイダー情報の取得に失敗しました', 'error');
-        } finally {
-          setLoading(false);
-        }
+      try {
+        const linkedProviders = await getLinkedProviders();
+        setProviders(linkedProviders);
+      } catch (error) {
+        console.error('Failed to fetch linked providers:', error);
+        showNotification('プロバイダー情報の取得に失敗しました', 'error');
+      } finally {
+        setLoading(false);
       }
     }
 
@@ -100,7 +99,7 @@ export const Settings = () => {
     } else if (status === 'unauthenticated') {
       setLoading(false);
     }
-  }, [session, status]);
+  }, [status]);
 
   const showNotification = (message: string, severity: 'success' | 'error') => {
     setNotification({
@@ -129,7 +128,7 @@ export const Settings = () => {
       });
 
       if (response.ok) {
-        setProviders((prev) => (prev ? { ...prev, [provider]: false } : null));
+        setProviders((prev) => (prev ? { ...prev, [provider]: { linked: false } } : null));
         showNotification(
           `${providerInfo[provider].name}との連携を解除しました`,
           'success',
@@ -195,10 +194,27 @@ export const Settings = () => {
                 <ListItemIcon>{info.icon}</ListItemIcon>
                 <ListItemText
                   primary={info.name}
-                  secondary={info.description}
+                  secondary={
+                    providers?.[provider].providerUserName &&
+                      providers?.[provider].providerProfileUrl ? (
+                      <Link
+                        href={providers?.[provider].providerProfileUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        underline="hover"
+                        color="text.secondary"
+                        sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5 }}
+                      >
+                        {providers?.[provider].providerUserName}
+                        <OpenInNew fontSize="inherit" />
+                      </Link>
+                    ) : (
+                      info.description
+                    )
+                  }
                 />
                 <ListItemSecondaryAction>
-                  {providers?.[provider as keyof LinkedProviders] ? (
+                  {providers?.[provider].linked ? (
                     <>
                       <Chip
                         label="連携済み"

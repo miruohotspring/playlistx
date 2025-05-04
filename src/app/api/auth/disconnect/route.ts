@@ -7,10 +7,7 @@ export async function POST(request: Request) {
   const session = await getServerSession(options);
 
   if (!session || !session.user) {
-    return NextResponse.json(
-      { error: 'You must be signed in to disconnect accounts.' },
-      { status: 401 },
-    );
+    return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   }
 
   try {
