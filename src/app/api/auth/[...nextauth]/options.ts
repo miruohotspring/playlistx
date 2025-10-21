@@ -5,7 +5,16 @@ import SpotifyProvider from 'next-auth/providers/spotify';
 import SoundCloudProvider, {} from '@lib/providers/soundcloud';
 import type { SoundCloudProfile } from '@lib/providers/soundcloud';
 import { ddbDocument, docClient } from '@lib/dynamo';
-import { NEXTAUTH_TABLE, AUTH_SECRET, GOOGLE_ID, GOOGLE_SECRET, SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SOUNDCLOUD_CLIENT_ID, SOUNDCLOUD_CLIENT_SECRET } from '@lib/config';
+import {
+  NEXTAUTH_TABLE,
+  AUTH_SECRET,
+  GOOGLE_ID,
+  GOOGLE_SECRET,
+  SPOTIFY_CLIENT_ID,
+  SPOTIFY_CLIENT_SECRET,
+  SOUNDCLOUD_CLIENT_ID,
+  SOUNDCLOUD_CLIENT_SECRET,
+} from '@lib/config';
 import { UpdateCommand } from '@aws-sdk/lib-dynamodb';
 
 interface GoogleProfile extends Profile {
@@ -19,6 +28,7 @@ const adapter = DynamoDBAdapter(ddbDocument, {
 
 export const options: NextAuthOptions = {
   secret: AUTH_SECRET,
+  pages: { signIn: '/api/auth/signin' },
   providers: [
     GoogleProvider({
       clientId: GOOGLE_ID,

@@ -20,12 +20,13 @@ import {
   Snackbar,
   Alert,
   Link,
+  Box,
 } from '@mui/material';
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import { getLinkedProviders } from '@serverActions/getLinkedProviders';
 import type { LinkedProviderMeta } from '@serverActions/getLinkedProviders';
-import { ProviderType } from '@common/constants';
+import type { ProviderType } from '@common/constants';
 import { Logout, OpenInNew } from '@mui/icons-material';
 
 interface ProviderInfo {
@@ -37,7 +38,10 @@ interface ProviderInfo {
 
 export const Settings = () => {
   const { data: session, status } = useSession();
-  const [providers, setProviders] = useState<Record<string, LinkedProviderMeta> | null>(null);
+  const [providers, setProviders] = useState<Record<
+    string,
+    LinkedProviderMeta
+  > | null>(null);
   const [loading, setLoading] = useState(true);
   const [notification, setNotification] = useState<{
     open: boolean;
@@ -51,10 +55,15 @@ export const Settings = () => {
 
   const providerInfo: Record<ProviderType, ProviderInfo> = {
     google: {
-      name: 'YouTube',
-      description: 'YouTubeアカウントとの連携',
+      name: 'Google',
+      description: 'Googleアカウントとの連携',
       icon: (
-        <Image width="32" height="24" src="/icons/youtube.png" alt="YouTube" />
+        <Box
+          component="img"
+          src="https://www.google.com/favicon.ico"
+          alt="Google"
+          sx={{ width: '32px', height: '32px' }}
+        />
       ),
       color: 'inherit',
     },
@@ -70,11 +79,11 @@ export const Settings = () => {
       name: 'SoundCloud',
       description: 'SoundCloudアカウントとの連携',
       icon: (
-        <Image
-          width="32"
-          height="32"
-          src="/icons/soundcloud.png"
-          alt="SoundCloud"
+        <Box
+          component="img"
+          src="/icons/soundcloud-dark.png"
+          alt="Soundcloud"
+          sx={{ width: '32px', height: '32px' }}
         />
       ),
       color: 'inherit',
@@ -128,7 +137,9 @@ export const Settings = () => {
       });
 
       if (response.ok) {
-        setProviders((prev) => (prev ? { ...prev, [provider]: { linked: false } } : null));
+        setProviders((prev) =>
+          prev ? { ...prev, [provider]: { linked: false } } : null,
+        );
         showNotification(
           `${providerInfo[provider].name}との連携を解除しました`,
           'success',
@@ -149,8 +160,8 @@ export const Settings = () => {
   };
 
   const handleLogout = async () => {
-    await signOut({ callbackUrl: "/" })
-  }
+    await signOut({ callbackUrl: '/' });
+  };
 
   if (loading) {
     return (
@@ -191,7 +202,7 @@ export const Settings = () => {
           音楽サービスとの連携を管理します。連携することで、各サービスのプレイリストを統合して利用できます。
         </Typography>
         <Alert variant="outlined" severity="warning">
-          すべてのサービスとの連携を解除すると、再度ログインすることが出来なくなります。
+          Googleアカウント連携を解除すると、再度ログインすることが出来なくなります。
         </Alert>
 
         <List>
@@ -203,14 +214,18 @@ export const Settings = () => {
                   primary={info.name}
                   secondary={
                     providers?.[provider].providerUserName &&
-                      providers?.[provider].providerProfileUrl ? (
+                    providers?.[provider].providerProfileUrl ? (
                       <Link
                         href={providers?.[provider].providerProfileUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         underline="hover"
                         color="text.secondary"
-                        sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5 }}
+                        sx={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 0.5,
+                        }}
                       >
                         {providers?.[provider].providerUserName}
                         <OpenInNew fontSize="inherit" />
@@ -259,7 +274,12 @@ export const Settings = () => {
             </React.Fragment>
           ))}
         </List>
-        <Button variant="outlined" color="error" startIcon={<Logout />} onClick={handleLogout}>
+        <Button
+          variant="outlined"
+          color="error"
+          startIcon={<Logout />}
+          onClick={handleLogout}
+        >
           ログアウト
         </Button>
       </Paper>
