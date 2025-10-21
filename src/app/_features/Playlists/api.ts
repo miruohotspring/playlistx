@@ -4,8 +4,7 @@ import { PutCommand } from '@aws-sdk/lib-dynamodb';
 import { v4 as uuidv4 } from 'uuid';
 import type { Playlist } from '.';
 import { docClient } from '@lib/dynamo';
-
-const PLAYLISTS_TABLE = process.env.PLAYLISTS_TABLE as string;
+import { PLAYLISTS_TABLE } from '@lib/config';
 
 /**
  * Fetch Session User Playlists

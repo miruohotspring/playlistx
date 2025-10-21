@@ -1,9 +1,11 @@
 'use server';
+import { SC_BASE_URL, SC_ASSET_INDEX } from '@lib/config';
+
 
 export default async function scGetClientId() {
-  const url = process.env.SC_BASE_URL;
-  const index = Number(process.env.SC_ASSET_INDEX);
-  if (!url || !index) return undefined;
+  const url = SC_BASE_URL;
+  const index = SC_ASSET_INDEX;
+  if (!url || Number.isNaN(index)) return undefined;
 
   const res = await fetch(url);
   if (res.ok) {
@@ -17,6 +19,9 @@ export default async function scGetClientId() {
       while (match !== null) {
         urls.push(match[1]);
         match = scriptSrcRegex.exec(html);
+      }
+      if (index < 0 || index >= urls.length) {
+        return undefined;
       }
       const assetUrl = urls[index];
       return await getClientId(assetUrl);

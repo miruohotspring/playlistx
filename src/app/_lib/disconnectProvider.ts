@@ -1,8 +1,7 @@
 // lib/disconnectProvider.ts
 import { QueryCommand, DeleteCommand } from '@aws-sdk/lib-dynamodb';
 import { docClient } from './dynamo';
-
-const TABLE_NAME = process.env.NEXTAUTH_TABLE as string;
+import { NEXTAUTH_TABLE } from '@lib/config';
 
 export async function disconnectProvider(
   userId: string,
@@ -14,7 +13,7 @@ export async function disconnectProvider(
   try {
     const { Items } = await docClient.send(
       new QueryCommand({
-        TableName: TABLE_NAME,
+        TableName: NEXTAUTH_TABLE,
         KeyConditionExpression: 'pk = :pk AND begins_with(sk, :prefix)',
         ExpressionAttributeValues: {
           ':pk': pk,
@@ -32,7 +31,7 @@ export async function disconnectProvider(
       Items.map((item) =>
         docClient.send(
           new DeleteCommand({
-            TableName: TABLE_NAME,
+            TableName: NEXTAUTH_TABLE,
             Key: {
               pk: item.pk,
               sk: item.sk,

@@ -5,6 +5,7 @@ import SpotifyProvider from 'next-auth/providers/spotify';
 import SoundCloudProvider, {} from '@lib/providers/soundcloud';
 import type { SoundCloudProfile } from '@lib/providers/soundcloud';
 import { ddbDocument, docClient } from '@lib/dynamo';
+import { NEXTAUTH_TABLE, AUTH_SECRET, GOOGLE_ID, GOOGLE_SECRET, SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SOUNDCLOUD_CLIENT_ID, SOUNDCLOUD_CLIENT_SECRET } from '@lib/config';
 import { UpdateCommand } from '@aws-sdk/lib-dynamodb';
 
 interface GoogleProfile extends Profile {
@@ -13,15 +14,15 @@ interface GoogleProfile extends Profile {
 }
 
 const adapter = DynamoDBAdapter(ddbDocument, {
-  tableName: process.env.NEXTAUTH_TABLE as string,
+  tableName: NEXTAUTH_TABLE,
 });
 
 export const options: NextAuthOptions = {
-  secret: process.env.AUTH_SECRET,
+  secret: AUTH_SECRET,
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_ID as string,
-      clientSecret: process.env.GOOGLE_SECRET as string,
+      clientId: GOOGLE_ID,
+      clientSecret: GOOGLE_SECRET,
       name: 'YouTube',
       authorization: {
         params: {
@@ -75,12 +76,12 @@ export const options: NextAuthOptions = {
       },
     }),
     SpotifyProvider({
-      clientId: process.env.SPOTIFY_CLIENT_ID as string,
-      clientSecret: process.env.SPOTIFY_CLIENT_SECRET as string,
+      clientId: SPOTIFY_CLIENT_ID,
+      clientSecret: SPOTIFY_CLIENT_SECRET,
     }),
     SoundCloudProvider({
-      clientId: process.env.SOUNDCLOUD_CLIENT_ID as string,
-      clientSecret: process.env.SOUNDCLOUD_CLIENT_SECRET as string,
+      clientId: SOUNDCLOUD_CLIENT_ID,
+      clientSecret: SOUNDCLOUD_CLIENT_SECRET,
     }),
   ],
   adapter,
@@ -144,7 +145,7 @@ export const options: NextAuthOptions = {
         try {
           await docClient.send(
             new UpdateCommand({
-              TableName: process.env.NEXTAUTH_TABLE,
+              TableName: NEXTAUTH_TABLE,
               Key: { pk, sk },
               UpdateExpression: `SET ${updateExpr.join(', ')}`,
               ExpressionAttributeValues: exprAttrVals,

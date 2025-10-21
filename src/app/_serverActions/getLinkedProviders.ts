@@ -4,6 +4,7 @@ import { QueryCommand } from '@aws-sdk/lib-dynamodb';
 import { getServerSession } from 'next-auth';
 import { options } from '@api/auth/[...nextauth]/options';
 import { docClient } from '@lib/dynamo';
+import { NEXTAUTH_TABLE } from '@lib/config';
 import { allProviders } from '@common/constants';
 import type { ProviderType } from '@common/constants';
 
@@ -28,7 +29,7 @@ export async function getLinkedProviders(): Promise<
 
   const { Items } = await docClient.send(
     new QueryCommand({
-      TableName: process.env.NEXTAUTH_TABLE as string,
+      TableName: NEXTAUTH_TABLE,
       KeyConditionExpression: 'pk = :pk AND begins_with(sk, :prefix)',
       ExpressionAttributeValues: {
         ':pk': pk,

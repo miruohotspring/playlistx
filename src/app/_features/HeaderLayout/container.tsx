@@ -1,6 +1,5 @@
 'use client';
 
-import logger from '@common/logger';
 import { type Playlist, fetchUserPlaylists } from '@features/Playlists';
 import AddPlaylistDialog from '@features/Playlists/containers/AddPlaylistDialog';
 import { useLanguage, useTranslation } from '@i18n/client';
@@ -41,7 +40,7 @@ const HeaderLayout = ({ children }: { children: React.ReactNode }) => {
       try {
         setPlaylists(await fetchUserPlaylists());
       } catch (error) {
-        logger.error('Error fething playlists', error);
+        console.error('Error fetching playlists', error);
       }
     };
     fetchPlaylists();

@@ -1,3 +1,5 @@
+import { ICON_SOUNDCLOUD, ICON_SOUNDCLOUD_DARK } from '@lib/config';
+
 import type {
   OAuthConfig,
   OAuthUserConfig,
@@ -96,8 +98,8 @@ export default function SoundCloudProvider(
     },
 
     style: {
-      logo: process.env.SOUNDCLOUD_LOGO as string,
-      logoDark: process.env.SOUNDCLOUD_LOGO_DARK as string,
+      logo: ICON_SOUNDCLOUD,
+      logoDark: ICON_SOUNDCLOUD_DARK,
       bg: '#ff7700',
       text: '#fff',
     },
