@@ -1,21 +1,21 @@
-import type { NextAuthOptions, Profile } from 'next-auth';
 import { DynamoDBAdapter } from '@auth/dynamodb-adapter';
-import GoogleProvider from 'next-auth/providers/google';
-import SpotifyProvider from 'next-auth/providers/spotify';
-import SoundCloudProvider, {} from '@lib/providers/soundcloud';
-import type { SoundCloudProfile } from '@lib/providers/soundcloud';
-import { ddbDocument, docClient } from '@lib/dynamo';
+import { UpdateCommand } from '@aws-sdk/lib-dynamodb';
 import {
-  NEXTAUTH_TABLE,
   AUTH_SECRET,
   GOOGLE_ID,
   GOOGLE_SECRET,
-  SPOTIFY_CLIENT_ID,
-  SPOTIFY_CLIENT_SECRET,
+  NEXTAUTH_TABLE,
   SOUNDCLOUD_CLIENT_ID,
   SOUNDCLOUD_CLIENT_SECRET,
+  SPOTIFY_CLIENT_ID,
+  SPOTIFY_CLIENT_SECRET,
 } from '@lib/config';
-import { UpdateCommand } from '@aws-sdk/lib-dynamodb';
+import { ddbDocument, docClient } from '@lib/dynamo';
+import SoundCloudProvider, {} from '@lib/providers/soundcloud';
+import type { SoundCloudProfile } from '@lib/providers/soundcloud';
+import type { NextAuthOptions, Profile } from 'next-auth';
+import GoogleProvider from 'next-auth/providers/google';
+import SpotifyProvider from 'next-auth/providers/spotify';
 
 interface GoogleProfile extends Profile {
   youtubeChannelTitle?: string;

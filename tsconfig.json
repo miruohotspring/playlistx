@@ -33,7 +33,7 @@
         "./src/app/_features/*"
       ],
       "@components/*": [
-        "./src/app/_components/*"
+        "./src/components/*"
       ],
       "@serverActions/*": [
         "./src/app/_serverActions/*"
@@ -49,6 +49,9 @@
       ],
       "@i18n/*": [
         "./src/app/i18n/*"
+      ],
+      "@ui/*": [
+        "./src/components/ui/*"
       ],
       "@public/*": [
         "./public/*"

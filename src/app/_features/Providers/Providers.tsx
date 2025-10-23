@@ -1,5 +1,6 @@
 'use client';
 
+import { NotificationProvider } from '@components/ui';
 import { LanguageProvider } from '@i18n/client';
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import { SessionProvider } from 'next-auth/react';
@@ -26,7 +27,11 @@ export const Providers = ({ children, lang }: ProvidersProps) => {
       <SessionProvider>
         <ScProvider>
           <CssBaseline />
-          <LanguageProvider initialLanguage={lang}>{children}</LanguageProvider>
+          <NotificationProvider>
+            <LanguageProvider initialLanguage={lang}>
+              {children}
+            </LanguageProvider>
+          </NotificationProvider>
         </ScProvider>
       </SessionProvider>
     </ThemeProvider>

@@ -1,10 +1,10 @@
 'use server';
 
 import { PutCommand } from '@aws-sdk/lib-dynamodb';
+import { PLAYLISTS_TABLE } from '@lib/config';
+import { docClient } from '@lib/dynamo';
 import { v4 as uuidv4 } from 'uuid';
 import type { Playlist } from '.';
-import { docClient } from '@lib/dynamo';
-import { PLAYLISTS_TABLE } from '@lib/config';
 
 /**
  * Fetch Session User Playlists

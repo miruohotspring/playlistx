@@ -1,11 +1,14 @@
 'use client';
 
+import { LoadingButton } from '@components/ui';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+} from '@components/ui';
 import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import TextField from '@mui/material/TextField';
 import type * as React from 'react';
 import { type SubmitHandler, useForm } from 'react-hook-form';
 import { createPlaylist } from '..';
@@ -28,7 +31,7 @@ const AddPlaylistDialog: React.FC<AddPlaylistDialogProps> = ({
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<PlaylistFormInputs>();
 
   const onSubmit: SubmitHandler<PlaylistFormInputs> = async (data) => {
@@ -73,9 +76,13 @@ const AddPlaylistDialog: React.FC<AddPlaylistDialogProps> = ({
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCancel}>Cancel</Button>
-          <Button type="submit" variant="contained">
+          <LoadingButton
+            type="submit"
+            variant="contained"
+            loading={isSubmitting}
+          >
             Create
-          </Button>
+          </LoadingButton>
         </DialogActions>
       </form>
     </Dialog>

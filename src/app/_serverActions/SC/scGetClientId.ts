@@ -1,6 +1,5 @@
 'use server';
-import { SC_BASE_URL, SC_ASSET_INDEX } from '@lib/config';
-
+import { SC_ASSET_INDEX, SC_BASE_URL } from '@lib/config';
 
 export default async function scGetClientId() {
   const url = SC_BASE_URL;

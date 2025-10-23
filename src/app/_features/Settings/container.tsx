@@ -1,33 +1,28 @@
 'use client';
 
-import React from 'react';
-
-import { useState, useEffect } from 'react';
-import { signOut, useSession } from 'next-auth/react';
+import type { ProviderType } from '@common/constants';
+import { PageContainer, useNotification } from '@components/ui';
+import { Logout, OpenInNew } from '@mui/icons-material';
 import {
-  Typography,
-  Paper,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  ListItemSecondaryAction,
+  Alert,
+  Box,
   Button,
   Chip,
   CircularProgress,
-  Container,
   Divider,
-  Snackbar,
-  Alert,
   Link,
-  Box,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemSecondaryAction,
+  ListItemText,
+  Typography,
 } from '@mui/material';
-import { signIn } from 'next-auth/react';
-import Image from 'next/image';
 import { getLinkedProviders } from '@serverActions/getLinkedProviders';
 import type { LinkedProviderMeta } from '@serverActions/getLinkedProviders';
-import type { ProviderType } from '@common/constants';
-import { Logout, OpenInNew } from '@mui/icons-material';
+import { signIn, signOut, useSession } from 'next-auth/react';
+import Image from 'next/image';
+import React, { useEffect, useState } from 'react';
 
 interface ProviderInfo {
   name: string;
@@ -38,20 +33,12 @@ interface ProviderInfo {
 
 export const Settings = () => {
   const { data: session, status } = useSession();
+  const { showNotification } = useNotification();
   const [providers, setProviders] = useState<Record<
     string,
     LinkedProviderMeta
   > | null>(null);
   const [loading, setLoading] = useState(true);
-  const [notification, setNotification] = useState<{
-    open: boolean;
-    message: string;
-    severity: 'success' | 'error';
-  }>({
-    open: false,
-    message: '',
-    severity: 'success',
-  });
 
   const providerInfo: Record<ProviderType, ProviderInfo> = {
     google: {
@@ -108,19 +95,7 @@ export const Settings = () => {
     } else if (status === 'unauthenticated') {
       setLoading(false);
     }
-  }, [status]);
-
-  const showNotification = (message: string, severity: 'success' | 'error') => {
-    setNotification({
-      open: true,
-      message,
-      severity,
-    });
-  };
-
-  const handleCloseNotification = () => {
-    setNotification({ ...notification, open: false });
-  };
+  }, [status, showNotification]);
 
   const handleConnect = async (provider: string) => {
     await signIn(provider, { callbackUrl: '/settings' });
@@ -141,19 +116,19 @@ export const Settings = () => {
           prev ? { ...prev, [provider]: { linked: false } } : null,
         );
         showNotification(
-          `${providerInfo[provider].name}との連携を解除しました`,
+          `${providerInfo[provider as ProviderType].name}との連携を解除しました`,
           'success',
         );
       } else {
         showNotification(
-          `${providerInfo[provider].name}との連携解除に失敗しました`,
+          `${providerInfo[provider as ProviderType].name}との連携解除に失敗しました`,
           'error',
         );
       }
     } catch (error) {
       console.error(`Failed to disconnect ${provider}:`, error);
       showNotification(
-        `${providerInfo[provider].name}との連携解除に失敗しました`,
+        `${providerInfo[provider as ProviderType].name}との連携解除に失敗しました`,
         'error',
       );
     }
@@ -165,140 +140,117 @@ export const Settings = () => {
 
   if (loading) {
     return (
-      <Container
-        maxWidth="md"
-        sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}
-      >
-        <CircularProgress />
-      </Container>
+      <PageContainer disablePaper containerSx={{ mt: 4 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+          <CircularProgress />
+        </Box>
+      </PageContainer>
     );
   }
 
   if (!session) {
     return (
-      <Container maxWidth="md" sx={{ mt: 4 }}>
-        <Paper sx={{ p: 3 }}>
-          <Typography variant="h6" gutterBottom>
-            アカウント連携
-          </Typography>
-          <Typography>
-            アカウント連携を管理するにはログインしてください。
-          </Typography>
-          <Button variant="contained" onClick={() => signIn()} sx={{ mt: 2 }}>
-            ログイン
-          </Button>
-        </Paper>
-      </Container>
+      <PageContainer>
+        <Typography variant="h6" gutterBottom>
+          アカウント連携
+        </Typography>
+        <Typography>
+          アカウント連携を管理するにはログインしてください。
+        </Typography>
+        <Button variant="contained" onClick={() => signIn()} sx={{ mt: 2 }}>
+          ログイン
+        </Button>
+      </PageContainer>
     );
   }
 
   return (
-    <Container maxWidth="md" sx={{ mt: 4 }}>
-      <Paper sx={{ p: 3 }}>
-        <Typography variant="h5" gutterBottom>
-          アカウント連携
-        </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-          音楽サービスとの連携を管理します。連携することで、各サービスのプレイリストを統合して利用できます。
-        </Typography>
-        <Alert variant="outlined" severity="warning">
-          Googleアカウント連携を解除すると、再度ログインすることが出来なくなります。
-        </Alert>
+    <PageContainer>
+      <Typography variant="h5" gutterBottom>
+        アカウント連携
+      </Typography>
+      <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+        音楽サービスとの連携を管理します。連携することで、各サービスのプレイリストを統合して利用できます。
+      </Typography>
+      <Alert variant="outlined" severity="warning">
+        Googleアカウント連携を解除すると、再度ログインすることが出来なくなります。
+      </Alert>
 
-        <List>
-          {Object.entries(providerInfo).map(([provider, info]) => (
-            <React.Fragment key={provider}>
-              <ListItem>
-                <ListItemIcon>{info.icon}</ListItemIcon>
-                <ListItemText
-                  primary={info.name}
-                  secondary={
-                    providers?.[provider].providerUserName &&
-                    providers?.[provider].providerProfileUrl ? (
-                      <Link
-                        href={providers?.[provider].providerProfileUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        underline="hover"
-                        color="text.secondary"
-                        sx={{
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: 0.5,
-                        }}
-                      >
-                        {providers?.[provider].providerUserName}
-                        <OpenInNew fontSize="inherit" />
-                      </Link>
-                    ) : (
-                      info.description
-                    )
-                  }
-                />
-                <ListItemSecondaryAction>
-                  {providers?.[provider].linked ? (
-                    <>
-                      <Chip
-                        label="連携済み"
-                        color="success"
-                        size="small"
-                        sx={{ mr: 1 }}
-                      />
-                      <Button
-                        variant="outlined"
-                        color="error"
-                        size="small"
-                        onClick={() => handleDisconnect(provider)}
-                      >
-                        連携解除
-                      </Button>
-                    </>
-                  ) : (
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      onClick={() => handleConnect(provider)}
+      <List>
+        {Object.entries(providerInfo).map(([provider, info]) => (
+          <React.Fragment key={provider}>
+            <ListItem>
+              <ListItemIcon>{info.icon}</ListItemIcon>
+              <ListItemText
+                primary={info.name}
+                secondary={
+                  providers?.[provider]?.providerUserName &&
+                  providers?.[provider]?.providerProfileUrl ? (
+                    <Link
+                      href={providers?.[provider]?.providerProfileUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      underline="hover"
+                      color="text.secondary"
                       sx={{
-                        outlineColor: info.color,
-                        color: 'inherit',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 0.5,
                       }}
                     >
-                      連携する
+                      {providers?.[provider]?.providerUserName}
+                      <OpenInNew fontSize="inherit" />
+                    </Link>
+                  ) : (
+                    info.description
+                  )
+                }
+              />
+              <ListItemSecondaryAction>
+                {providers?.[provider]?.linked ? (
+                  <>
+                    <Chip
+                      label="連携済み"
+                      color="success"
+                      size="small"
+                      sx={{ mr: 1 }}
+                    />
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      size="small"
+                      onClick={() => handleDisconnect(provider)}
+                    >
+                      連携解除
                     </Button>
-                  )}
-                </ListItemSecondaryAction>
-              </ListItem>
-              {provider !== 'soundcloud' && (
-                <Divider variant="inset" component="li" />
-              )}
-            </React.Fragment>
-          ))}
-        </List>
-        <Button
-          variant="outlined"
-          color="error"
-          startIcon={<Logout />}
-          onClick={handleLogout}
-        >
-          ログアウト
-        </Button>
-      </Paper>
-
-      <Snackbar
-        open={notification.open}
-        autoHideDuration={6000}
-        onClose={handleCloseNotification}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                  </>
+                ) : (
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    onClick={() => handleConnect(provider)}
+                    sx={{ outlineColor: info.color, color: 'inherit' }}
+                  >
+                    連携する
+                  </Button>
+                )}
+              </ListItemSecondaryAction>
+            </ListItem>
+            {provider !== 'soundcloud' && (
+              <Divider variant="inset" component="li" />
+            )}
+          </React.Fragment>
+        ))}
+      </List>
+      <Button
+        variant="outlined"
+        color="error"
+        startIcon={<Logout />}
+        onClick={handleLogout}
       >
-        <Alert
-          onClose={handleCloseNotification}
-          severity={notification.severity}
-          sx={{ width: '100%' }}
-        >
-          {notification.message}
-        </Alert>
-      </Snackbar>
-    </Container>
+        ログアウト
+      </Button>
+    </PageContainer>
   );
 };
 

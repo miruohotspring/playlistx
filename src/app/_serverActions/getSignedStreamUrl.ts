@@ -1,8 +1,8 @@
 'use server';
 
 import logger from '@common/logger';
+import { CF_ACCOUNT_ID, STREAM_ENDPOINT, STREAM_TOKEN } from '@lib/config';
 import type { ActionResult } from './types';
-import { CF_ACCOUNT_ID, STREAM_TOKEN, STREAM_ENDPOINT } from '@lib/config';
 
 export const getSignedStreamUrl = async (
   videoId: string,
@@ -26,7 +26,9 @@ export const getSignedStreamUrl = async (
     logger.debug(data);
 
     if (!data.success) {
-      throw new Error('Cloudflare Stream token API responded with success=false');
+      throw new Error(
+        'Cloudflare Stream token API responded with success=false',
+      );
     }
 
     return {

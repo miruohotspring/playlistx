@@ -1,13 +1,7 @@
+import { InputAdornment, TextField } from '@components/ui';
 import { Search } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
-import {
-  AppBar,
-  Box,
-  IconButton,
-  InputAdornment,
-  TextField,
-  Toolbar,
-} from '@mui/material';
+import { AppBar, Box, IconButton, Toolbar } from '@mui/material';
 import type { KeyboardEventHandler } from 'react';
 
 const Header = ({

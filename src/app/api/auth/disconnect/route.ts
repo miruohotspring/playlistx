@@ -1,7 +1,7 @@
-import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth/next';
-import { options } from '../[...nextauth]/options';
 import { disconnectProvider } from '@lib/disconnectProvider';
+import { getServerSession } from 'next-auth/next';
+import { NextResponse } from 'next/server';
+import { options } from '../[...nextauth]/options';
 
 export async function POST(request: Request) {
   const session = await getServerSession(options);

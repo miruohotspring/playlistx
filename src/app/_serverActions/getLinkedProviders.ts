@@ -1,12 +1,12 @@
 'use server';
 
-import { QueryCommand } from '@aws-sdk/lib-dynamodb';
-import { getServerSession } from 'next-auth';
 import { options } from '@api/auth/[...nextauth]/options';
-import { docClient } from '@lib/dynamo';
-import { NEXTAUTH_TABLE } from '@lib/config';
+import { QueryCommand } from '@aws-sdk/lib-dynamodb';
 import { allProviders } from '@common/constants';
 import type { ProviderType } from '@common/constants';
+import { NEXTAUTH_TABLE } from '@lib/config';
+import { docClient } from '@lib/dynamo';
+import { getServerSession } from 'next-auth';
 
 export interface LinkedProviderMeta {
   linked: boolean;

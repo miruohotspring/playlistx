@@ -1,5 +1,5 @@
+import { Box, Container, Divider, Paper, Typography } from '@mui/material';
 import type { ReactNode } from 'react';
-import { Container, Typography, Box, Divider, Paper } from '@mui/material';
 
 export default function Page(): ReactNode {
   return (
