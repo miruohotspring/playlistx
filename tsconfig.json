@@ -48,7 +48,7 @@
         "./src/app/_common/*"
       ],
       "@i18n/*": [
-        "./src/app/i18n/*"
+        "./src/lib/i18n/*"
       ],
       "@ui/*": [
         "./src/components/ui/*"

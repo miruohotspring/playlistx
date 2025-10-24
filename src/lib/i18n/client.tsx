@@ -13,7 +13,7 @@ import {
   initReactI18next,
   useTranslation as useTranslationOrigin,
 } from 'react-i18next';
-import { getOptions } from './settings';
+import { getOptions } from './config';
 
 i18next
   .use(initReactI18next)
