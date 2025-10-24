@@ -53,6 +53,9 @@
       "@ui/*": [
         "./src/components/ui/*"
       ],
+      "@providers/*": [
+        "./src/providers/*"
+      ],
       "@public/*": [
         "./public/*"
       ],

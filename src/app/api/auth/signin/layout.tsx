@@ -1,7 +1,7 @@
 import 'server-only';
 
-import { Providers } from '@features/Providers';
 import { dir } from 'i18next';
+import { AppProviders } from '@providers/AppProviders';
 
 export default function RootLayout({
   children,
@@ -18,7 +18,7 @@ export default function RootLayout({
       </head>
       <body>
         <main>
-          <Providers lang={lang}>{children}</Providers>
+          <AppProviders lang={lang}>{children}</AppProviders>
         </main>
       </body>
     </html>
