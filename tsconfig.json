@@ -30,7 +30,7 @@
     ],
     "paths": {
       "@features/*": [
-        "./src/app/_features/*"
+        "./src/features/*"
       ],
       "@components/*": [
         "./src/components/*"

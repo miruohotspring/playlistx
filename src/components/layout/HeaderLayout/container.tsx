@@ -1,7 +1,7 @@
 'use client';
 
-import { type Playlist, fetchUserPlaylists } from '@features/Playlists';
-import AddPlaylistDialog from '@features/Playlists/containers/AddPlaylistDialog';
+import { type Playlist, fetchUserPlaylists } from '@features/playlists';
+import AddPlaylistDialog from '@features/playlists/containers/AddPlaylistDialog';
 import { useLanguage, useTranslation } from '@i18n/client';
 import { Settings } from '@mui/icons-material';
 import AddIcon from '@mui/icons-material/Add';

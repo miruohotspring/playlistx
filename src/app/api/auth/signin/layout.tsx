@@ -1,7 +1,7 @@
 import 'server-only';
 
-import { dir } from 'i18next';
 import { AppProviders } from '@providers/AppProviders';
+import { dir } from 'i18next';
 
 export default function RootLayout({
   children,
