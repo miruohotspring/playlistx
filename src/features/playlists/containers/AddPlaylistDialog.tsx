@@ -11,7 +11,7 @@ import {
 import Button from '@mui/material/Button';
 import type * as React from 'react';
 import { type SubmitHandler, useForm } from 'react-hook-form';
-import { createPlaylist } from '..';
+import { createPlaylist } from '../api/client';
 
 interface PlaylistFormInputs {
   name: string;

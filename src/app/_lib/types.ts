@@ -1,7 +1,6 @@
 declare global {
   interface Window {
-    // biome-ignore lint: dashjs
-    dashjs: any;
+    dashjs?: unknown;
   }
 }
 export type Platform = 'spotify' | 'soundcloud';
