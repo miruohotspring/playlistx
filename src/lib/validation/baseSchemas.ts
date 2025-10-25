@@ -1,5 +1,8 @@
 import { z } from 'zod';
 
+// Common string validations
+export const NonEmptyString = z.string().min(1);
+
 // Basic pagination metadata used by APIs
 export const PaginationSchema = z.object({
   page: z.number().int().positive(),

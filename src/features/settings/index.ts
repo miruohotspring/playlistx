@@ -1,3 +1,3 @@
-import Settings from './container';
+import Settings from './containers/Settings';
 
 export { Settings };

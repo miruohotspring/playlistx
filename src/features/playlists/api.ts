@@ -1,98 +1,63 @@
-'use server';
+// Feature API client for Playlists
+// Client-side HTTP wrapper using shared lib/api
 
-import { PutCommand } from '@aws-sdk/lib-dynamodb';
-import { PLAYLISTS_TABLE } from '@lib/config';
-import { docClient } from '@lib/dynamo';
-import { v4 as uuidv4 } from 'uuid';
-import type { Playlist } from '.';
+import { ApiClient } from '@src/lib/api/client';
+import { createNextAuthClientInterceptors } from '@src/lib/api/interceptors.nextauth.client';
+import {
+  PlaylistCreateDto as PlaylistCreateDtoSchema,
+  PlaylistSchema,
+} from './schemas';
+import type { Playlist } from './types';
 
-/**
- * Fetch Session User Playlists
- * @param
- * @returns Array of session user's playlists
- */
-export const fetchSessionUserPlaylists = async (): Promise<Playlist[]> => {
-  return [];
-  // const session = await getSession();
-  // const user = session?.user;
-  // if (!user || !user.email) {
-  //   logger.error('User not authenticated');
-  //   redirect('/api/auth/signIn');
-  // }
-  //
-  // const command = new QueryCommand({
-  //   TableName: PLAYLISTS_TABLE as string,
-  //   IndexName: 'created_by_created_at_index',
-  //   KeyConditionExpression: 'created_by = :uid',
-  //   ExpressionAttributeValues: {
-  //     ':uid': user,
-  //   },
-  //   ScanIndexForward: false,
-  // });
-  //
-  // const result = await ddbDocClient.send(command);
-  // const items = result.Items as Playlist[] | undefined;
-  // return items ?? [];
-};
+const interceptors = createNextAuthClientInterceptors();
+const api = new ApiClient(undefined, undefined, interceptors);
 
-/**
- * Fetch Playlist
- * @param id - playlist ID
- * @returns Playlist Detail
- */
-export const fetchPlaylist = async (id: string): Promise<Playlist | null> => {
-  console.log(id);
-  return null;
-  // const session = await getSession();
-  // const userId = session?.userId;
-  //
-  // const result = await ddbDocClient.send(
-  //   new GetCommand({
-  //     TableName: PLAYLISTS_TABLE as string,
-  //     Key: { id },
-  //   }),
-  // );
-  //
-  // const playlist = result.Item;
-  // if (!playlist) return null;
-  //
-  // const items = result.Items as Playlist[] | undefined;
-  // return items ?? [];
-};
+export async function fetchUserPlaylists(): Promise<Playlist[]> {
+  // GET /api/playlists
+  try {
+    const res = await api.get<unknown>('/api/playlists');
+    const parsed = Array.isArray(res)
+      ? PlaylistSchema.array().safeParse(res)
+      : ({ success: false } as const);
 
-/**
- * Create Playlist
- * @param data
- * @returns Created Playlist
- */
+    if (parsed.success) return parsed.data as unknown as Playlist[];
+    return [];
+  } catch {
+    // Return empty list on failure to avoid runtime errors in UI
+    return [];
+  }
+}
+
+export async function fetchPlaylist(id: string): Promise<Playlist | null> {
+  // GET /api/playlists/:id
+  try {
+    const res = await api.get<unknown>(`/api/playlists/${id}`);
+    const parsed = PlaylistSchema.safeParse(res);
+    if (parsed.success) return parsed.data as unknown as Playlist;
+    return null;
+  } catch {
+    return null;
+  }
+}
+
 export async function createPlaylist(data: {
   name: string;
-  description: string;
+  description?: string;
 }): Promise<Playlist> {
-  // const session = await getSession();
-  // const userId = session.userId;
+  // Validate request payload with Zod before sending
+  const validated = PlaylistCreateDtoSchema.safeParse(data);
+  if (!validated.success) {
+    // Throw with first error message for simplicity; UI can map errors as needed
+    const message = validated.error.errors[0]?.message ?? 'Invalid payload';
+    throw new Error(message);
+  }
 
-  const now = new Date().toISOString();
-
-  const newPlaylist: Playlist = {
-    id: uuidv4(),
-    name: data.name,
-    description: data.description,
-    cover_image_url: null,
-    is_collaborative: false,
-    is_public: false,
-    created_at: now,
-    updated_at: now,
-    created_by: '',
-    updated_by: '',
-  };
-
-  await docClient.send(
-    new PutCommand({
-      TableName: PLAYLISTS_TABLE,
-      Item: newPlaylist,
-    }),
-  );
-
-  return newPlaylist;
+  // POST /api/playlists
+  const res = await api.post<unknown>('/api/playlists', validated.data);
+  // Validate response shape
+  const parsed = PlaylistSchema.safeParse(res);
+  if (!parsed.success) {
+    throw new Error('Invalid playlist response from server');
+  }
+  return parsed.data as unknown as Playlist;
 }

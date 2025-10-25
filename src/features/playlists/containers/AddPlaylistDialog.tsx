@@ -11,7 +11,8 @@ import {
 import Button from '@mui/material/Button';
 import type * as React from 'react';
 import { type SubmitHandler, useForm } from 'react-hook-form';
-import { createPlaylist } from '../api/client';
+import { createPlaylist } from '../api';
+import { PlaylistCreateDto } from '../schemas';
 
 interface PlaylistFormInputs {
   name: string;
@@ -31,12 +32,22 @@ const AddPlaylistDialog: React.FC<AddPlaylistDialogProps> = ({
     register,
     handleSubmit,
     reset,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<PlaylistFormInputs>();
 
   const onSubmit: SubmitHandler<PlaylistFormInputs> = async (data) => {
+    const parsed = PlaylistCreateDto.safeParse(data);
+    if (!parsed.success) {
+      const issue = parsed.error.issues[0];
+      if (issue?.path?.[0] === 'name') {
+        setError('name', { type: 'zod', message: issue.message });
+      }
+      return;
+    }
+
     try {
-      await createPlaylist(data);
+      await createPlaylist(parsed.data);
       reset();
       onClose();
     } catch (error) {
@@ -61,8 +72,8 @@ const AddPlaylistDialog: React.FC<AddPlaylistDialogProps> = ({
             fullWidth
             variant="outlined"
             error={!!errors.name}
-            helperText={errors.name ? 'Name is required' : ''}
-            {...register('name', { required: true })}
+            helperText={errors.name?.message || ''}
+            {...register('name')}
           />
           <TextField
             margin="dense"

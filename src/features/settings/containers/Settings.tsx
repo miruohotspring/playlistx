@@ -23,7 +23,7 @@ import type { LinkedProviderMeta } from '@serverActions/getLinkedProviders';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-import { disconnectProvider as disconnectProviderApi } from './api';
+import { disconnectProvider } from '../api';
 
 interface ProviderInfo {
   name: string;
@@ -104,7 +104,7 @@ export const Settings = () => {
 
   const handleDisconnect = async (provider: string) => {
     try {
-      const ok = await disconnectProviderApi(provider);
+      const ok = await disconnectProvider(provider);
       if (ok) {
         setProviders((prev) =>
           prev ? { ...prev, [provider]: { linked: false } } : null,
