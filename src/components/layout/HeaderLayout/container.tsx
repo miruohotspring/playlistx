@@ -2,7 +2,7 @@
 
 import { type Playlist, fetchUserPlaylists } from '@features/playlists';
 import AddPlaylistDialog from '@features/playlists/containers/AddPlaylistDialog';
-import { useLanguage, useTranslation } from '@i18n/client';
+import { useTranslation } from '@i18n/client';
 import { Settings } from '@mui/icons-material';
 import AddIcon from '@mui/icons-material/Add';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import type { SidebarItem } from './Sidebar';
 import HeaderLayoutUI from './presentational';
+import { useLanguage } from '@providers/LanguageProvider';
 
 const HeaderLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();

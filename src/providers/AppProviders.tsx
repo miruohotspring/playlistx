@@ -1,9 +1,9 @@
 'use client';
 import { NotificationProvider } from '@components/ui';
-import { ScProvider } from '@features/providers/ScProvider';
-import { LanguageProvider } from '@i18n/client';
+import { ScProvider } from './ScProvider';
+import { LanguageProvider } from './LanguageProvider';
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
-import { SessionProvider } from 'next-auth/react';
+import { SessionProvider } from './SessionProvider';
 import React, { type ReactNode } from 'react';
 
 const theme = createTheme({
