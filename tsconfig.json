@@ -35,8 +35,8 @@
       "@components/*": [
         "./src/components/*"
       ],
-      "@serverActions/*": [
-        "./src/app/_serverActions/*"
+      "@actions/*": [
+        "./src/server/actions/*"
       ],
       "@lib/*": [
         "./src/app/_lib/*"

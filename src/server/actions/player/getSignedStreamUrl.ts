@@ -2,7 +2,7 @@
 
 import logger from '@common/logger';
 import { CF_ACCOUNT_ID, STREAM_ENDPOINT, STREAM_TOKEN } from '@lib/config';
-import type { ActionResult } from './types';
+import type { ActionResult } from '../types';
 
 export const getSignedStreamUrl = async (
   videoId: string,

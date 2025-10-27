@@ -1,7 +1,7 @@
 'use server';
 import { SC_ASSET_INDEX, SC_BASE_URL } from '@lib/config';
 
-export default async function scGetClientId() {
+export async function getClientId() {
   const url = SC_BASE_URL;
   const index = SC_ASSET_INDEX;
   if (!url || Number.isNaN(index)) return undefined;
@@ -23,13 +23,13 @@ export default async function scGetClientId() {
         return undefined;
       }
       const assetUrl = urls[index];
-      return await getClientId(assetUrl);
+      return await parseClientId(assetUrl);
     }
   }
   return undefined;
 }
 
-const getClientId = async (url: string) => {
+const parseClientId = async (url: string) => {
   const res = await fetch(url);
   if (res.ok) {
     const body = res.body;

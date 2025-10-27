@@ -18,8 +18,7 @@ import {
   ListItemText,
   Typography,
 } from '@mui/material';
-import { getLinkedProviders } from '@serverActions/getLinkedProviders';
-import type { LinkedProviderMeta } from '@serverActions/getLinkedProviders';
+import { getLinkedProviders, type LinkedProviderMeta } from '@actions/settings';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';

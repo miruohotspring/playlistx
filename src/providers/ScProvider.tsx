@@ -1,4 +1,3 @@
-import scGetClientId from '@serverActions/SC/scGetClientId';
 import {
   type ReactNode,
   createContext,
@@ -6,6 +5,7 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { getClientId } from '@actions/soundcloud';
 
 type ScContextType = {
   cid: string | undefined;
@@ -23,7 +23,7 @@ export const ScProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     (async () => {
       if (cid === undefined) {
-        const cid = await scGetClientId();
+        const cid = await getClientId();
         setCid(cid);
       }
     })();
