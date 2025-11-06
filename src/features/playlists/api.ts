@@ -1,8 +1,8 @@
 // Feature API client for Playlists
 // Client-side HTTP wrapper using shared lib/api
 
-import { ApiClient } from '@src/lib/api/client';
-import { createNextAuthClientInterceptors } from '@src/lib/api/interceptors.nextauth.client';
+import { ApiClient } from '@lib/api/client';
+import { createNextAuthClientInterceptors } from '@lib/api/interceptors.nextauth.client';
 import {
   PlaylistCreateDto as PlaylistCreateDtoSchema,
   PlaylistSchema,

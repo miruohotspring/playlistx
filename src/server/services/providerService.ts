@@ -1,7 +1,7 @@
 // lib/disconnectProvider.ts
 import { DeleteCommand, QueryCommand } from '@aws-sdk/lib-dynamodb';
-import { NEXTAUTH_TABLE } from '@lib/config';
-import { docClient } from './dynamo';
+import { NEXTAUTH_TABLE } from '@lib/config/env';
+import { docClient } from '../../lib/auth/dynamo';
 
 export async function disconnectProvider(
   userId: string,

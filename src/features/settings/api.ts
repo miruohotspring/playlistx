@@ -1,8 +1,8 @@
 // Feature API client for Settings
 // This wraps Next.js API routes with a typed client using our shared lib/api layer.
 
-import { ApiClient } from '@src/lib/api/client';
-import { createNextAuthClientInterceptors } from '@src/lib/api/interceptors.nextauth.client';
+import { ApiClient } from '@lib/api/client';
+import { createNextAuthClientInterceptors } from '@lib/api/interceptors.nextauth.client';
 import { DisconnectProviderDto } from './schemas';
 
 const interceptors = createNextAuthClientInterceptors();

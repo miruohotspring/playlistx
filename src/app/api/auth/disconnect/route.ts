@@ -1,4 +1,4 @@
-import { disconnectProvider } from '@lib/disconnectProvider';
+import { disconnectProvider } from '@src/server/services/providerService';
 import { getServerSession } from 'next-auth/next';
 import { NextResponse } from 'next/server';
 import { options } from '../[...nextauth]/options';

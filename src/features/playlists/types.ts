@@ -1,3 +1,5 @@
+export type Platform = 'spotify' | 'soundcloud';
+
 export interface Playlist {
   id: string;
   name: string;
@@ -9,4 +11,12 @@ export interface Playlist {
   updated_at: string;
   created_by: string;
   updated_by: string;
+}
+
+export interface Track {
+  id: number;
+  title: string;
+  artist: string;
+  platform: Platform;
+  url: string;
 }

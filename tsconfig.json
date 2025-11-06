@@ -39,7 +39,7 @@
         "./src/server/actions/*"
       ],
       "@lib/*": [
-        "./src/app/_lib/*"
+        "./src/lib/*"
       ],
       "@api/*": [
         "./src/app/api/*"

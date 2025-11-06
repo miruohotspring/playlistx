@@ -1,7 +1,7 @@
 'use server';
 
 import logger from '@common/logger';
-import { CF_ACCOUNT_ID, STREAM_ENDPOINT, STREAM_TOKEN } from '@lib/config';
+import { CF_ACCOUNT_ID, STREAM_ENDPOINT, STREAM_TOKEN } from '@lib/config/env';
 import type { ActionResult } from '../types';
 
 export const getSignedStreamUrl = async (

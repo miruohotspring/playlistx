@@ -4,7 +4,7 @@ import {
   DynamoDBDocumentClient,
 } from '@aws-sdk/lib-dynamodb';
 
-import { AWS_REGION } from '@lib/config';
+import { AWS_REGION } from '@lib/config/env';
 
 export const ddbClient = new DynamoDBClient({
   region: AWS_REGION,

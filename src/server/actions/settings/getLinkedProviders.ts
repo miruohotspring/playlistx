@@ -4,8 +4,8 @@ import { options } from '@api/auth/[...nextauth]/options';
 import { QueryCommand } from '@aws-sdk/lib-dynamodb';
 import { allProviders } from '@common/constants';
 import type { ProviderType } from '@common/constants';
-import { NEXTAUTH_TABLE } from '@lib/config';
-import { docClient } from '@lib/dynamo';
+import { NEXTAUTH_TABLE } from '@lib/config/env';
+import { docClient } from '@lib/auth/dynamo';
 import { getServerSession } from 'next-auth';
 
 export interface LinkedProviderMeta {

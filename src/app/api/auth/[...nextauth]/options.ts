@@ -9,10 +9,10 @@ import {
   SOUNDCLOUD_CLIENT_SECRET,
   SPOTIFY_CLIENT_ID,
   SPOTIFY_CLIENT_SECRET,
-} from '@lib/config';
-import { ddbDocument, docClient } from '@lib/dynamo';
-import SoundCloudProvider, {} from '@lib/providers/soundcloud';
-import type { SoundCloudProfile } from '@lib/providers/soundcloud';
+} from '@lib/config/env';
+import { ddbDocument, docClient } from '@lib/auth/dynamo';
+import SoundCloudProvider, {} from '@lib/auth/providers/soundcloud';
+import type { SoundCloudProfile } from '@lib/auth/providers/soundcloud';
 import type { NextAuthOptions, Profile } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import SpotifyProvider from 'next-auth/providers/spotify';
