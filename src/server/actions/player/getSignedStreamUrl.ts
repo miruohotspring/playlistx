@@ -1,6 +1,6 @@
 'use server';
 
-import logger from '@common/logger';
+import logger from '@lib/utils/logger';
 import { CF_ACCOUNT_ID, STREAM_ENDPOINT, STREAM_TOKEN } from '@lib/config/env';
 import type { ActionResult } from '../types';
 

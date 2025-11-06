@@ -1,4 +1,4 @@
-import { ICON_SOUNDCLOUD, ICON_SOUNDCLOUD_DARK } from '@common/constants';
+import { ICON_SOUNDCLOUD, ICON_SOUNDCLOUD_DARK } from '@src/constants/common';
 
 import type {
   OAuthConfig,

@@ -2,8 +2,8 @@
 
 import { options } from '@api/auth/[...nextauth]/options';
 import { QueryCommand } from '@aws-sdk/lib-dynamodb';
-import { allProviders } from '@common/constants';
-import type { ProviderType } from '@common/constants';
+import { allProviders } from '@src/constants/common';
+import type { ProviderType } from '@src/constants/common';
 import { NEXTAUTH_TABLE } from '@lib/config/env';
 import { docClient } from '@lib/auth/dynamo';
 import { getServerSession } from 'next-auth';

@@ -44,9 +44,6 @@
       "@api/*": [
         "./src/app/api/*"
       ],
-      "@common/*": [
-        "./src/app/_common/*"
-      ],
       "@i18n/*": [
         "./src/lib/i18n/*"
       ],

@@ -1,6 +1,6 @@
 'use client';
 
-import type { ProviderType } from '@common/constants';
+import type { ProviderType } from '@src/constants/common';
 import { PageContainer, useNotification } from '@components/ui';
 import { Logout, OpenInNew } from '@mui/icons-material';
 import {
